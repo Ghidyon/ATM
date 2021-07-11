@@ -45,16 +45,6 @@ namespace ATM
                 }
             } while (amountDeposited < 5000);
             
-/*
-            while (int.TryParse(accountBalance, out parsedAccountBalance))
-            {
-                if (parsedAccountBalance < 5000)
-                {
-                    Console.WriteLine("Minimum amount is 5,000 Naira");
-                    accountBalance = PromptUser("amount");
-                }
-            }*/
-
             User user = new User
             {
                 Name = name,
