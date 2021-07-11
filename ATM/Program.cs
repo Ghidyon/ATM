@@ -10,6 +10,7 @@ namespace ATM
     {
         static void Main(string[] args)
         {
+            
             // sets the title of the console
             Console.Title = "Automated Teller Machine";
 

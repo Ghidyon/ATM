@@ -47,7 +47,6 @@
     <Compile Include="ATMService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Register.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -46,9 +46,9 @@ namespace ATM
                 AccountBalance = int.Parse(accountBalance)
             };
 
-            Console.WriteLine($"{user.Name}, has been registered successfully!");
+            ATMService.Register(user);
 
-            ATMService.ShowPin(user);
+            ATMService.ShowPin();
         }
 
         private static string RequestPIN()
