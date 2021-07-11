@@ -22,28 +22,44 @@ namespace ATM
                 name = PromptUser("name");
             }
 
-            Console.WriteLine("Set your PIN");
+            Console.WriteLine("Set your 4-digit PIN");
             string pin = RequestPIN();
 
-            while (string.IsNullOrWhiteSpace(pin))
+            while (string.IsNullOrWhiteSpace(pin) || pin.Length < 4 || pin.Length > 4)
             {
                 pin = PromptPin();
             }
 
-            Console.WriteLine("\nWhat amount do you want to deposit?");
-            string accountBalance = Console.ReadLine().Trim();
-
-            int parsedAccountBalance;
-            while( string.IsNullOrWhiteSpace(accountBalance) || accountBalance.Split().Length > 1 || !(int.TryParse(accountBalance, out parsedAccountBalance)) )
+            int amountDeposited = 0;
+            do
             {
-                accountBalance = PromptUser("amount");
-            }
+                Console.WriteLine("\nHow much do you want to deposit?");
+                string accountBalance = Console.ReadLine().Trim();
+                while (string.IsNullOrWhiteSpace(accountBalance) || accountBalance.Split().Length > 1 || !(int.TryParse(accountBalance, out amountDeposited)))
+                {
+                    accountBalance = PromptUser("amount");
+                }
+                if (amountDeposited < 5000)
+                {
+                    Console.WriteLine("Minimum deposit is N5000");
+                }
+            } while (amountDeposited < 5000);
+            
+/*
+            while (int.TryParse(accountBalance, out parsedAccountBalance))
+            {
+                if (parsedAccountBalance < 5000)
+                {
+                    Console.WriteLine("Minimum amount is 5,000 Naira");
+                    accountBalance = PromptUser("amount");
+                }
+            }*/
 
             User user = new User
             {
                 Name = name,
                 Pin = pin,
-                AccountBalance = int.Parse(accountBalance)
+                AccountBalance = amountDeposited
             };
 
             ATMService.Register(user);
@@ -62,8 +78,8 @@ namespace ATM
             {
                 keyInfo = Console.ReadKey(true); // sets the console to not display the character
 
-                // check if key pressed is a not a control key
-                if (!char.IsControl(keyInfo.KeyChar))
+                // check if key pressed is a numberkey
+                if (char.IsDigit(keyInfo.KeyChar))
                 {
                     stringBuilder.Append(keyInfo.KeyChar);
                     Console.Write("*");
@@ -75,8 +91,7 @@ namespace ATM
 
         private static string PromptPin()
         {
-            Console.WriteLine("PIN cannot be blank!");
-            Console.WriteLine("Set your PIN");
+            Console.WriteLine("\nSet your 4-digit PIN");
             return RequestPIN();
         }
 
@@ -85,5 +100,6 @@ namespace ATM
             Console.WriteLine($"Please, enter a valid {fieldName}");
             return Console.ReadLine().Trim();
         }
+
     }
 }
