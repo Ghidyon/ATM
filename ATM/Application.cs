@@ -10,11 +10,8 @@ namespace ATM
     {
         public static void Run()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("You've reached the ATM Console Application\n");
-            stringBuilder.AppendLine("Please enter your Name");
-            Console.WriteLine(stringBuilder.ToString());
-
+            Console.WriteLine("You've reached the ATM Console Application\n");
+            Console.WriteLine("Please enter your Name");
             string name = Console.ReadLine().Trim();
 
             while (string.IsNullOrWhiteSpace(name))
@@ -22,7 +19,7 @@ namespace ATM
                 name = PromptUser("name");
             }
 
-            Console.WriteLine("Set your 4-digit PIN");
+            Console.WriteLine("\nSet your 4-digit PIN");
             string pin = RequestPIN();
 
             while (string.IsNullOrWhiteSpace(pin) || pin.Length < 4 || pin.Length > 4)
@@ -41,7 +38,10 @@ namespace ATM
                 }
                 if (amountDeposited < 5000)
                 {
-                    Console.WriteLine("Minimum deposit is N5000");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    int minimumDeposit = 5000;
+                    Console.WriteLine($"Minimum deposit is N{minimumDeposit:n}");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             } while (amountDeposited < 5000);
             
@@ -55,9 +55,42 @@ namespace ATM
             ATMService.Register(user);
 
             ATMService.ShowPin();
+            bool isLoggedIn = false;
+
+            Language language = ATMService.SelectLanguage();
+
+            if (language == Language.English)
+            {
+                ATMService.ValidatePinEnglish(isLoggedIn);
+
+            }
+
+            if (language == Language.Pidgin)
+            {
+                Translation.PromptPinPidgin();
+                string PIN = Console.ReadLine();
+
+                while (string.IsNullOrWhiteSpace(PIN))
+                {
+                    Translation.PromptPinPidgin();
+                    PIN = RequestPIN();
+                }
+            }   
+                
+            if (language == Language.Igbo)
+            {   
+                Translation.PromptPinIgbo();
+                string PIN = Console.ReadLine();
+
+                while (string.IsNullOrWhiteSpace(PIN))
+                {
+                    Translation.PromptPinIgbo();
+                    PIN = RequestPIN();
+                }
+            }
         }
 
-        private static string RequestPIN()
+        public static string RequestPIN()
         {
             // store characters in stringbuilder to be able to build the * characters
             StringBuilder stringBuilder = new StringBuilder();
@@ -81,13 +114,18 @@ namespace ATM
 
         private static string PromptPin()
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nPIN must be 4-digits!");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nSet your 4-digit PIN");
             return RequestPIN();
         }
 
         private static string PromptUser(string fieldName)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Please, enter a valid {fieldName}");
+            Console.ForegroundColor = ConsoleColor.White;
             return Console.ReadLine().Trim();
         }
 
