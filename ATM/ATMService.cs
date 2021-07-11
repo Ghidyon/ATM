@@ -46,11 +46,126 @@ namespace ATM
                 if (!isLoggedIn)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nIncorrect PIN");
+                    Console.WriteLine("\nIncorrect PIN!");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
             Console.WriteLine($"\n\nWelcome {_user.Name}!");
+        }
+
+        public static void ValidatePinPidgin(bool isLoggedIn)
+        {
+            while (!isLoggedIn)
+            {
+                Translation.PromptPinPidgin();
+                string PIN = Application.RequestPIN();
+
+                while (string.IsNullOrWhiteSpace(PIN))
+                {
+                    Translation.PromptPinPidgin();
+                    PIN = Application.RequestPIN();
+                }
+
+                isLoggedIn = IsValidated(PIN, _user.Pin);
+                if (!isLoggedIn)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nDis PIN no legit!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            Console.WriteLine($"\n\nWelcome {_user.Name}!");
+        }
+        
+        public static void ValidatePinIgbo(bool isLoggedIn)
+        {
+            while (!isLoggedIn)
+            {
+                Translation.PromptPinIgbo();
+                string PIN = Application.RequestPIN();
+
+                while (string.IsNullOrWhiteSpace(PIN))
+                {
+                    Translation.PromptPinIgbo();
+                    PIN = Application.RequestPIN();
+                }
+
+                isLoggedIn = IsValidated(PIN, _user.Pin);
+                if (!isLoggedIn)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nPIN a adaba ro!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            Console.WriteLine($"\n\nNnoo {_user.Name}!");
+        }
+
+
+        public static AccountOperation SelectOperationEnglish()
+        {
+            Translation.PromptOperationEnglish();
+            string operation = Console.ReadLine().Trim();
+
+            while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.OperationErrorMessageEnglish();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.PromptOperationEnglish();
+                operation = Console.ReadLine().Trim();
+            }
+
+            return MatchOperation(operation);
+        }
+        
+        public static AccountOperation SelectOperationPidgin()
+        {
+            Translation.PromptOperationPidgin();
+            string operation = Console.ReadLine().Trim();
+
+            while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.OperationErrorMessagePidgin();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.PromptOperationPidgin();
+                operation = Console.ReadLine().Trim();
+            }
+
+            return MatchOperation(operation);
+        }
+        
+        public static AccountOperation SelectOperationIgbo()
+        {
+            Translation.PromptOperationIgbo();
+            string operation = Console.ReadLine().Trim();
+
+            while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.OperationErrorMessageIgbo();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.PromptOperationIgbo();
+                operation = Console.ReadLine().Trim();
+            }
+
+            return MatchOperation(operation);
+        }
+
+        public static AccountOperation MatchOperation(string operation)
+        {
+            switch (operation)
+            {
+                case "1":
+                    return AccountOperation.Withdrawal;
+                case "2":
+                    return AccountOperation.CheckBalance;
+                case "3":
+                    return AccountOperation.End;
+                default:
+                    return AccountOperation.SelectOperation;
+            }
         }
 
         public static Language SelectLanguage()

@@ -63,29 +63,86 @@ namespace ATM
             {
                 ATMService.ValidatePinEnglish(isLoggedIn);
 
+                bool HasOperationEnded = false;
+                while (!HasOperationEnded)
+                {
+                    AccountOperation accountOperation = ATMService.SelectOperationEnglish();
+
+                    if (accountOperation == AccountOperation.Withdrawal)
+                    {
+
+                    }
+
+                    if (accountOperation == AccountOperation.CheckBalance)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"\nYour Account Balance is N{user.AccountBalance:n}\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    if (accountOperation == AccountOperation.End)
+                    {
+                        Console.WriteLine("Your session has ended!");
+                        HasOperationEnded = true;
+                    }
+                }
             }
 
             if (language == Language.Pidgin)
             {
-                Translation.PromptPinPidgin();
-                string PIN = Console.ReadLine();
+                ATMService.ValidatePinPidgin(isLoggedIn);
 
-                while (string.IsNullOrWhiteSpace(PIN))
+                bool HasOperationEnded = false;
+                while (!HasOperationEnded)
                 {
-                    Translation.PromptPinPidgin();
-                    PIN = RequestPIN();
+                    AccountOperation accountOperation = ATMService.SelectOperationPidgin();
+
+                    if (accountOperation == AccountOperation.Withdrawal)
+                    {
+
+                    }
+
+                    if (accountOperation == AccountOperation.CheckBalance)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"\nAll your money na N{user.AccountBalance:n}\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    if (accountOperation == AccountOperation.End)
+                    {
+                        Console.WriteLine("Abeg getat!");
+                        HasOperationEnded = true;
+                    }
                 }
             }   
                 
             if (language == Language.Igbo)
-            {   
-                Translation.PromptPinIgbo();
-                string PIN = Console.ReadLine();
+            {
+                ATMService.ValidatePinIgbo(isLoggedIn);
 
-                while (string.IsNullOrWhiteSpace(PIN))
+                bool HasOperationEnded = false;
+                while (!HasOperationEnded)
                 {
-                    Translation.PromptPinIgbo();
-                    PIN = RequestPIN();
+                    AccountOperation accountOperation = ATMService.SelectOperationIgbo();
+
+                    if (accountOperation == AccountOperation.Withdrawal)
+                    {
+
+                    }
+
+                    if (accountOperation == AccountOperation.CheckBalance)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"\nEgo N'ile I Nwere Bu N{user.AccountBalance:n}\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    if (accountOperation == AccountOperation.End)
+                    {
+                        Console.WriteLine("Ogwucha la!");
+                        HasOperationEnded = true;
+                    }
                 }
             }
         }
