@@ -54,7 +54,6 @@ namespace ATM
 
             ATMService.Register(user);
 
-            ATMService.ShowPin();
             bool isLoggedIn = false;
 
             Language language = ATMService.SelectLanguage();

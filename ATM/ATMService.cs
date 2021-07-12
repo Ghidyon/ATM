@@ -11,11 +11,6 @@ namespace ATM
         private static int _vault = 500000;
         private static User _user;
 
-        public static void ShowPin()
-        {
-            Console.WriteLine($"{_user.Pin} is the new user's pin!");
-        }
-
         public static void Register(User model)
         {
             _user = new User()
