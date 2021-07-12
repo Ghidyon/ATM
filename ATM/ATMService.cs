@@ -8,7 +8,7 @@ namespace ATM
 {
     public static class ATMService
     {
-        //private static int _vault = 5000;
+        private static int _vault = 500000;
         private static User _user;
 
         public static void ShowPin()
@@ -33,12 +33,12 @@ namespace ATM
         {
             while (!isLoggedIn)
             {
-                Translation.PromptPinEnglish();
+                Translation.EnglishPromptPin();
                 string PIN = Application.RequestPIN();
 
                 while (string.IsNullOrWhiteSpace(PIN))
                 {
-                    Translation.PromptPinEnglish();
+                    Translation.EnglishPromptPin();
                     PIN = Application.RequestPIN();
                 }
 
@@ -57,12 +57,12 @@ namespace ATM
         {
             while (!isLoggedIn)
             {
-                Translation.PromptPinPidgin();
+                Translation.PidginPromptPin();
                 string PIN = Application.RequestPIN();
 
                 while (string.IsNullOrWhiteSpace(PIN))
                 {
-                    Translation.PromptPinPidgin();
+                    Translation.PidginPromptPin();
                     PIN = Application.RequestPIN();
                 }
 
@@ -81,12 +81,12 @@ namespace ATM
         {
             while (!isLoggedIn)
             {
-                Translation.PromptPinIgbo();
+                Translation.IgboPromptPin();
                 string PIN = Application.RequestPIN();
 
                 while (string.IsNullOrWhiteSpace(PIN))
                 {
-                    Translation.PromptPinIgbo();
+                    Translation.IgboPromptPin();
                     PIN = Application.RequestPIN();
                 }
 
@@ -101,18 +101,161 @@ namespace ATM
             Console.WriteLine($"\n\nNnoo {_user.Name}!");
         }
 
-
-        public static AccountOperation SelectOperationEnglish()
+        public static int CheckBalance()
         {
-            Translation.PromptOperationEnglish();
+            return _user.AccountBalance;
+        }
+
+        public static void EnglishWithdrawalHandler()
+        {
+            int withdrawalAmount = EnglishWithdrawalOption();
+            if (withdrawalAmount % 1000 == 0 || withdrawalAmount % 500 == 0)
+            {
+                if(withdrawalAmount < _user.AccountBalance && withdrawalAmount < _vault)
+                {
+                    _user.AccountBalance -= withdrawalAmount;
+                    _vault -= withdrawalAmount;
+                }
+            }
+
+        }
+
+        public static int EnglishWithdrawalOption()
+        {
+            Translation.EnglishWithdrawalPrompt();
+            string option = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(option) || (option != "1" && option != "2" && option != "3" && option != "4"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.EnglishOperationErrorMessage();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.EnglishWithdrawalPrompt();
+                option = Console.ReadLine().Trim();
+            }
+
+            return EnglishMatchWithdrawalOption(option);
+        }
+        
+        public static int PidginWithdrawalOption()
+        {
+            Translation.PidginWithdrawalPrompt();
+            string option = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(option) || (option != "1" && option != "2" && option != "3" && option != "4"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.PidginOperationErrorMessage();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.PidginWithdrawalPrompt();
+                option = Console.ReadLine().Trim();
+            }
+
+            return PidginMatchWithdrawalOption(option);
+        }
+        
+        public static int IgboWithdrawalOption()
+        {
+            Translation.IgboWithdrawalPrompt();
+            string option = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(option) || (option != "1" && option != "2" && option != "3" && option != "4"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Translation.IgboOperationErrorMessage();
+                Console.ForegroundColor = ConsoleColor.White;
+                Translation.IgboWithdrawalPrompt();
+                option = Console.ReadLine().Trim();
+            }
+
+            return PidginMatchWithdrawalOption(option);
+        }
+
+        public static int PidginMatchWithdrawalOption(string operation)
+        {
+            switch (operation)
+            {
+                case "1":
+                    return 5000;
+                case "2":
+                    return 10000;
+                case "3":
+                    return 20000;
+                default:
+                    Console.WriteLine("Chook the amount you wan collect");
+                    string amount = Console.ReadLine();
+                    int withdrawalAmount;
+                    while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount))){
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Translation.PidginOperationErrorMessage();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Chook the amount you wan collect");
+                        amount = Console.ReadLine();
+                    }
+                    return withdrawalAmount;
+            }
+        }
+                
+        public static int IgboMatchWithdrawalOption(string operation)
+        {
+            switch (operation)
+            {
+                case "1":
+                    return 5000;
+                case "2":
+                    return 10000;
+                case "3":
+                    return 20000;
+                default:
+                    Console.WriteLine("Ego Ole Ka I Choro");
+                    string amount = Console.ReadLine();
+                    int withdrawalAmount;
+                    while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount))){
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Translation.PidginOperationErrorMessage();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Ego Ole Ka I Choro");
+                        amount = Console.ReadLine();
+                    }
+                    return withdrawalAmount;
+            }
+        }
+
+        public static int EnglishMatchWithdrawalOption(string operation)
+        {
+            switch (operation)
+            {
+                case "1":
+                    return 5000;
+                case "2":
+                    return 10000;
+                case "3":
+                    return 20000;
+                default:
+                    Console.WriteLine("Please input the amount you want to withdraw");
+                    string amount = Console.ReadLine();
+                    int withdrawalAmount;
+                    while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Translation.EnglishOperationErrorMessage();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Please input the amount you want to withdraw");
+                        amount = Console.ReadLine();
+                    }
+                    return withdrawalAmount;
+            }
+        }
+
+
+         public static AccountOperation SelectOperationEnglish()
+        {
+            Translation.EnglishPromptOperation();
             string operation = Console.ReadLine().Trim();
 
             while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Translation.OperationErrorMessageEnglish();
+                Translation.EnglishOperationErrorMessage();
                 Console.ForegroundColor = ConsoleColor.White;
-                Translation.PromptOperationEnglish();
+                Translation.EnglishPromptOperation();
                 operation = Console.ReadLine().Trim();
             }
 
@@ -121,15 +264,15 @@ namespace ATM
         
         public static AccountOperation SelectOperationPidgin()
         {
-            Translation.PromptOperationPidgin();
+            Translation.PidginPromptOperation();
             string operation = Console.ReadLine().Trim();
 
             while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Translation.OperationErrorMessagePidgin();
+                Translation.PidginOperationErrorMessage();
                 Console.ForegroundColor = ConsoleColor.White;
-                Translation.PromptOperationPidgin();
+                Translation.PidginPromptOperation();
                 operation = Console.ReadLine().Trim();
             }
 
@@ -138,15 +281,15 @@ namespace ATM
         
         public static AccountOperation SelectOperationIgbo()
         {
-            Translation.PromptOperationIgbo();
+            Translation.IgboPromptOperation();
             string operation = Console.ReadLine().Trim();
 
             while (string.IsNullOrWhiteSpace(operation) || (operation != "1" && operation != "2" && operation != "3"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Translation.OperationErrorMessageIgbo();
+                Translation.IgboOperationErrorMessage();
                 Console.ForegroundColor = ConsoleColor.White;
-                Translation.PromptOperationIgbo();
+                Translation.IgboPromptOperation();
                 operation = Console.ReadLine().Trim();
             }
 

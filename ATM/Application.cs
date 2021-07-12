@@ -70,13 +70,14 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-
+                        ATMService.EnglishWithdrawalHandler();
                     }
 
                     if (accountOperation == AccountOperation.CheckBalance)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"\nYour Account Balance is N{user.AccountBalance:n}\n");
+                        int accountBalance = ATMService.CheckBalance();
+                        Console.WriteLine($"\nYour Account Balance is N{accountBalance:n}\n");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
