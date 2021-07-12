@@ -133,7 +133,6 @@ namespace ATM
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{errorMessage}");
-
             }
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -184,8 +183,9 @@ namespace ATM
                 option = Console.ReadLine().Trim();
             }
 
-            return PidginMatchWithdrawalOption(option);
+            return IgboMatchWithdrawalOption(option);
         }
+
 
         public static int PidginMatchWithdrawalOption(string operation)
         {
@@ -262,7 +262,6 @@ namespace ATM
                     return withdrawalAmount;
             }
         }
-
 
          public static AccountOperation SelectOperationEnglish()
         {
