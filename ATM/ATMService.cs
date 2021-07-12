@@ -106,17 +106,36 @@ namespace ATM
             return _user.AccountBalance;
         }
 
-        public static void EnglishWithdrawalHandler()
+        public static void WithdrawalHandler(int amount, string successMessage, string errorMessage, string insufficientFunds, string outOfCash)
         {
-            int withdrawalAmount = EnglishWithdrawalOption();
+            int withdrawalAmount = amount;
             if (withdrawalAmount % 1000 == 0 || withdrawalAmount % 500 == 0)
             {
-                if(withdrawalAmount < _user.AccountBalance && withdrawalAmount < _vault)
+                if(withdrawalAmount <= _user.AccountBalance)
                 {
-                    _user.AccountBalance -= withdrawalAmount;
-                    _vault -= withdrawalAmount;
+                    if (withdrawalAmount <= _vault)
+                    {
+                        _user.AccountBalance -= withdrawalAmount;
+                        _vault -= withdrawalAmount;
+                        Console.WriteLine($"N{withdrawalAmount:n} {successMessage}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{outOfCash}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{insufficientFunds}");
                 }
             }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{errorMessage}");
+
+            }
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
 
@@ -209,7 +228,7 @@ namespace ATM
                     int withdrawalAmount;
                     while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount))){
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Translation.PidginOperationErrorMessage();
+                        Translation.IgboOperationErrorMessage();
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Ego Ole Ka I Choro");
                         amount = Console.ReadLine();

@@ -56,9 +56,24 @@ namespace ATM
             Console.WriteLine("Fichaa anya pinye ya ozo!\n");
         }
         
-        public static void EnglishWithdrawalErrorMessage()
+        public static string EnglishWithdrawalErrorMessage()
         {
-            Console.WriteLine("Please enter multiples of N1,000 or N500\n");
+            return "Please enter multiples of N1,000 or N500\n";
+        }
+        
+        public static string EnglishWithdrawalSuccessMessage()
+        {
+            return "withdrawal is successful!";
+        }
+        
+        public static string PidginWithdrawalSuccessMessage()
+        {
+            return "cash go well!";
+        }
+        
+        public static string IgboWithdrawalSuccessMessage()
+        {
+            return "putara ofuma!";
         }
         
         public static void EnglishWithdrawalPrompt()
@@ -66,23 +81,53 @@ namespace ATM
             Console.WriteLine("Please select an option\n1. 5,000\n2. 10,000\n3. 20,000\n4. Enter Amount\n");
         }
 
-        public static void PidginWithdrawalErrorMessage()
+        public static string PidginWithdrawalErrorMessage()
         {
-            Console.WriteLine("Na only 1k or 5h we dey pay o!\n");
+           return "Na only 1k or 5h we dey pay o!\n";
         }
 
         public static void PidginWithdrawalPrompt()
         {
-            Console.WriteLine("How much you want?\n1. 5,000\n2. 10,000\n3. 20,000\n4. Enter Amount\n");
+            Console.WriteLine("How much you want?\n1. 5,000\n2. 10,000\n3. 20,000\n4. Chook Your Own Amount\n");
         
-        }public static void IgboWithdrawalErrorMessage()
+        }public static string IgboWithdrawalErrorMessage()
         {
-            Console.WriteLine("Soo N1,000 ma obu N500 k'anyi na-akwu we dey pay o!\n");
+            return "Soo N1,000 ma obu N500 k'anyi nwere!\n";
         }
 
         public static void IgboWithdrawalPrompt()
         {
-            Console.WriteLine("Ego Ole Ka Ichoro\n1. 5,000\n2. 10,000\n3. 20,000\n4. Enter Amount\n");
+            Console.WriteLine("Ego Ole Ka Ichoro\n1. 5,000\n2. 10,000\n3. 20,000\n4. Pinye Ego Ole Ichoro\n");
+        }
+
+        public static string EnglishInsuffientFunds()
+        {
+            return "Insufficient funds";
+        }
+        
+        public static string IgboInsuffientFunds()
+        {
+            return "Inwero Ego!";
+        }
+        
+        public static string PidginInsuffientFunds()
+        {
+            return "You No Get Money!";
+        }
+
+        public static string EnglishDispenseError()
+        {
+            return "Temporarily, Unable To Dispense Cash!";
+        }
+        
+        public static string PidginDispenseError()
+        {
+            return "We No Get Cash To Waya You!";
+        }
+
+        public static string IgboDispenseError()
+        {
+            return "Ego Anyi Agwu Go";
         }
     }
 }

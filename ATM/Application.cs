@@ -70,7 +70,13 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-                        ATMService.EnglishWithdrawalHandler();
+                        ATMService.WithdrawalHandler(
+                            ATMService.EnglishWithdrawalOption(),
+                            Translation.EnglishWithdrawalSuccessMessage(),
+                            Translation.EnglishWithdrawalErrorMessage(),
+                            Translation.EnglishInsuffientFunds(),
+                            Translation.EnglishDispenseError()
+                        );
                     }
 
                     if (accountOperation == AccountOperation.CheckBalance)
@@ -100,13 +106,21 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
+                        ATMService.WithdrawalHandler(
+                            ATMService.PidginWithdrawalOption(),
+                            Translation.PidginWithdrawalSuccessMessage(),
+                            Translation.PidginWithdrawalErrorMessage(),
+                            Translation.PidginInsuffientFunds(),
+                            Translation.PidginDispenseError()
+                        );
 
                     }
 
                     if (accountOperation == AccountOperation.CheckBalance)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"\nAll your money na N{user.AccountBalance:n}\n");
+                        int accountBalance = ATMService.CheckBalance();
+                        Console.WriteLine($"\nAll your money na N{accountBalance:n}\n");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -129,13 +143,21 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
+                        ATMService.WithdrawalHandler(
+                            ATMService.IgboWithdrawalOption(), 
+                            Translation.IgboWithdrawalSuccessMessage(), 
+                            Translation.IgboWithdrawalErrorMessage(), 
+                            Translation.IgboInsuffientFunds(), 
+                            Translation.IgboDispenseError()
+                        );
 
                     }
 
                     if (accountOperation == AccountOperation.CheckBalance)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"\nEgo N'ile I Nwere Bu N{user.AccountBalance:n}\n");
+                        int accountBalance = ATMService.CheckBalance();
+                        Console.WriteLine($"\nEgo N'ile I Nwere Bu N{accountBalance:n}\n");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
