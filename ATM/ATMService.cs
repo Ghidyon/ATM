@@ -8,17 +8,14 @@ namespace ATM
 {
     public static class ATMService
     {
+        
+        // fields
         private static int _vault = 500000;
         private static User _user;
 
         public static void Register(User model)
         {
-            _user = new User()
-            {
-                Name = model.Name,
-                Pin = model.Pin,
-                AccountBalance = model.AccountBalance
-            };
+            _user = model;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\n{_user.Name}, has been registered successfully!\nYou've N{_user.AccountBalance:n} in your account!");
             Console.ForegroundColor = ConsoleColor.White;

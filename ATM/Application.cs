@@ -45,6 +45,7 @@ namespace ATM
                 }
             } while (amountDeposited < 5000);
             
+            // instantiation occurs in order to pass user data into the class
             User user = new User
             {
                 Name = name,
