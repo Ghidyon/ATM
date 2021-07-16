@@ -44,13 +44,17 @@ namespace ATM
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             } while (amountDeposited < 5000);
-            
+
+            /*Random random = new Random();
+            int generatedAccountNumber = random.Next();*/
+
             // instantiation occurs in order to pass user data into the class
             User user = new User
             {
                 Name = name,
                 Pin = pin,
-                AccountBalance = amountDeposited
+                AccountBalance = amountDeposited,
+                AccountNumber = new Random().Next(0000000001, 2147483647)
             };
 
             ATMService.Register(user);

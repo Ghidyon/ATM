@@ -8,8 +8,8 @@ namespace ATM
 {
     public static class ATMService
     {
-        
-        // fields
+        public static event EventHandler<EventArgs> DebitAlert;
+
         private static int _vault = 500000;
         private static User _user;
 
@@ -17,7 +17,7 @@ namespace ATM
         {
             _user = model;
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n{_user.Name}, has been registered successfully!\nYou've N{_user.AccountBalance:n} in your account!");
+            Console.WriteLine($"\n{_user.Name}, has been registered successfully!\nAccount No: {_user.AccountNumber}\nYou've N{_user.AccountBalance:n} in your account!");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -125,8 +125,8 @@ namespace ATM
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{errorMessage}");
+                Console.ForegroundColor = ConsoleColor.White;
             }
-            Console.ForegroundColor = ConsoleColor.White;
 
         }
 
@@ -242,8 +242,8 @@ namespace ATM
                 default:
                     Console.WriteLine("Please input the amount you want to withdraw");
                     string amount = Console.ReadLine();
-                    int withdrawalAmount;
-                    while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount)))
+                    int withdrawalAmount = 0;
+                    while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount)) || withdrawalAmount <= 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Translation.EnglishOperationErrorMessage();
@@ -255,7 +255,7 @@ namespace ATM
             }
         }
 
-         public static AccountOperation SelectOperationEnglish()
+        public static AccountOperation SelectOperationEnglish()
         {
             Translation.EnglishPromptOperation();
             string operation = Console.ReadLine().Trim();
@@ -356,6 +356,20 @@ namespace ATM
         private static bool IsValidated(string pin, string PIN)
         {
             return (pin == PIN) ? true : false;
+        }
+
+        protected virtual void OnDebit(DebitEventArgs model)
+        {
+            DebitAlert(this, model);
+        }
+
+        public static void DebitAlert(DebitEventArgs model)
+        {
+            Console.WriteLine("Debit Alert!");
+            Console.WriteLine("Your account has been debited!");
+            Console.WriteLine($"Amount: {model.Amount}");
+            Console.WriteLine($"Account: {model.AccountNumber}");
+            Console.WriteLine($"Time: {DateTime.Now}");
         }
     }
 }

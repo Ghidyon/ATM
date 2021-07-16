@@ -11,5 +11,6 @@ namespace ATM
         public string Name { get; set; }
         public string Pin { get; set; }
         public int AccountBalance { get; set; }
+        public int AccountNumber { get; set; }
     }
 }
