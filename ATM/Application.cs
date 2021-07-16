@@ -54,7 +54,7 @@ namespace ATM
                 Name = name,
                 Pin = pin,
                 AccountBalance = amountDeposited,
-                AccountNumber = new Random().Next(0000000001, 2147483647)
+                AccountNumber = new Random().Next(1000000000, 2147483647)
             };
 
             ATMService.Register(user);

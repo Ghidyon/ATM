@@ -11,7 +11,7 @@ namespace ATM.Events
         public static void RecordDebitAlert(object sender, DebitEventArgs model)
         {
             Console.WriteLine("Debit Alert!");
-            Console.WriteLine($"Amount: {model.WithdrawalAmount}");
+            Console.WriteLine($"Amount: N{model.WithdrawalAmount:n}");
             Console.WriteLine($"Account: {model.AccountNumber}");
             Console.WriteLine($"Time: {DateTime.Now}\n");
         }
