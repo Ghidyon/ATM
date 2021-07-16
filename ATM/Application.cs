@@ -117,6 +117,10 @@ namespace ATM
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
                         var atm = new ATMService();
+
+                        // Subscription
+                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
+                        
                         atm.WithdrawalHandler(
                             ATMService.PidginWithdrawalOption(),
                             Translation.PidginWithdrawalSuccessMessage(),
@@ -155,6 +159,10 @@ namespace ATM
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
                         var atm = new ATMService();
+
+                        // Subscription
+                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
+                        
                         atm.WithdrawalHandler(
                             ATMService.IgboWithdrawalOption(), 
                             Translation.IgboWithdrawalSuccessMessage(), 
