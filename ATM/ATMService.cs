@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATM.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public static class ATMService
+    public class ATMService
     {
-        public static event EventHandler<EventArgs> DebitAlert;
+        public event EventHandler<DebitEventArgs> DebitAlert;
 
         private static int _vault = 500000;
         private static User _user;
@@ -98,7 +99,7 @@ namespace ATM
             return _user.AccountBalance;
         }
 
-        public static void WithdrawalHandler(int amount, string successMessage, string errorMessage, string insufficientFunds, string outOfCash)
+        public void WithdrawalHandler(int amount, string successMessage, string errorMessage, string insufficientFunds, string outOfCash)
         {
             int withdrawalAmount = amount;
             if (withdrawalAmount % 1000 == 0 || withdrawalAmount % 500 == 0)
@@ -110,6 +111,16 @@ namespace ATM
                         _user.AccountBalance -= withdrawalAmount;
                         _vault -= withdrawalAmount;
                         Console.WriteLine($"N{withdrawalAmount:n} {successMessage}");
+
+                        var debitArgs = new DebitEventArgs()
+                        {
+                            AccountBalance = _user.AccountBalance,
+                            WithdrawalAmount = withdrawalAmount,
+                            AccountNumber = _user.AccountNumber
+                        };
+
+                        OnDebit(debitArgs);
+
                     }
                     else
                     {
@@ -357,19 +368,10 @@ namespace ATM
         {
             return (pin == PIN) ? true : false;
         }
-
+        
         protected virtual void OnDebit(DebitEventArgs model)
         {
-            DebitAlert(this, model);
-        }
-
-        public static void DebitAlert(DebitEventArgs model)
-        {
-            Console.WriteLine("Debit Alert!");
-            Console.WriteLine("Your account has been debited!");
-            Console.WriteLine($"Amount: {model.Amount}");
-            Console.WriteLine($"Account: {model.AccountNumber}");
-            Console.WriteLine($"Time: {DateTime.Now}");
+            DebitAlert?.Invoke(this, model);
         }
     }
 }

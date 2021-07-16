@@ -73,8 +73,14 @@ namespace ATM
                     AccountOperation accountOperation = ATMService.SelectOperationEnglish();
 
                     if (accountOperation == AccountOperation.Withdrawal)
+
                     {
-                        ATMService.WithdrawalHandler(
+                        ATMService atm = new ATMService();
+
+                        // Subscription
+                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
+
+                        atm.WithdrawalHandler(
                             ATMService.EnglishWithdrawalOption(),
                             Translation.EnglishWithdrawalSuccessMessage(),
                             Translation.EnglishWithdrawalErrorMessage(),
@@ -110,7 +116,8 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-                        ATMService.WithdrawalHandler(
+                        var atm = new ATMService();
+                        atm.WithdrawalHandler(
                             ATMService.PidginWithdrawalOption(),
                             Translation.PidginWithdrawalSuccessMessage(),
                             Translation.PidginWithdrawalErrorMessage(),
@@ -147,7 +154,8 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-                        ATMService.WithdrawalHandler(
+                        var atm = new ATMService();
+                        atm.WithdrawalHandler(
                             ATMService.IgboWithdrawalOption(), 
                             Translation.IgboWithdrawalSuccessMessage(), 
                             Translation.IgboWithdrawalErrorMessage(), 
