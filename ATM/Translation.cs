@@ -25,19 +25,19 @@ namespace ATM
 
         public static void EnglishPromptOperation()
         {
-            Console.WriteLine("What do you want to do?");
+            Console.WriteLine("\nWhat do you want to do?");
             Console.WriteLine("1. Withdrawal\n2. Check Balance\n3. Quit");
         }
         
         public static void PidginPromptOperation()
         {
-            Console.WriteLine("Wetin you wan do?");
+            Console.WriteLine("\nWetin you wan do?");
             Console.WriteLine("1. Collect Money\n2. Check How Much You Get\n3. Commot");
         }
         
         public static void IgboPromptOperation()
         {
-            Console.WriteLine("Ke Ihe Ichoro Ime?");
+            Console.WriteLine("\nKe Ihe Ichoro Ime?");
             Console.WriteLine("1. Were Ego\n2. Le Ego Di N'aha Gi\n3. Puo");
         }
 
@@ -58,7 +58,7 @@ namespace ATM
         
         public static string EnglishWithdrawalErrorMessage()
         {
-            return "Please enter multiples of N1,000 or N500\n";
+            return "\nPlease enter multiples of N1,000 or N500";
         }
         
         public static string EnglishWithdrawalSuccessMessage()
@@ -78,26 +78,26 @@ namespace ATM
         
         public static void EnglishWithdrawalPrompt()
         {
-            Console.WriteLine("Please select an option\n1. 5,000\n2. 10,000\n3. 20,000\n4. Enter Amount\n");
+            Console.WriteLine("\nPlease select an option\n1. 5,000\n2. 10,000\n3. 20,000\n4. Enter Amount");
         }
 
         public static string PidginWithdrawalErrorMessage()
         {
-           return "Na only 1k or 5h we dey pay o!\n";
+           return "\nNa only 1k or 5h we dey pay o!";
         }
 
         public static void PidginWithdrawalPrompt()
         {
-            Console.WriteLine("How much you want?\n1. 5,000\n2. 10,000\n3. 20,000\n4. Chook Your Own Amount\n");
+            Console.WriteLine("\nHow much you want?\n1. 5,000\n2. 10,000\n3. 20,000\n4. Chook Your Own Amount");
         
         }public static string IgboWithdrawalErrorMessage()
         {
-            return "Soo N1,000 ma obu N500 k'anyi nwere!\n";
+            return "\nSoo N1,000 ma obu N500 k'anyi nwere!";
         }
 
         public static void IgboWithdrawalPrompt()
         {
-            Console.WriteLine("Ego Ole Ka Ichoro\n1. 5,000\n2. 10,000\n3. 20,000\n4. Pinye Ego Ole Ichoro\n");
+            Console.WriteLine("\nEgo Ole Ka Ichoro\n1. 5,000\n2. 10,000\n3. 20,000\n4. Pinye Ego Ole Ichoro");
         }
 
         public static string EnglishInsuffientFunds()

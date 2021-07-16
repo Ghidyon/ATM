@@ -45,9 +45,6 @@ namespace ATM
                 }
             } while (amountDeposited < 5000);
 
-            /*Random random = new Random();
-            int generatedAccountNumber = random.Next();*/
-
             // instantiation occurs in order to pass user data into the class
             User user = new User
             {
@@ -57,7 +54,13 @@ namespace ATM
                 AccountNumber = new Random().Next(1000000000, 2147483647)
             };
 
-            ATMService.Register(user);
+            ATMService atm = new ATMService();
+
+            // Subscription
+            atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
+            atm.CreditAlert += Events.EventHandler.RecordCreditAlert;
+
+            atm.Register(user);
 
             bool isLoggedIn = false;
 
@@ -73,13 +76,7 @@ namespace ATM
                     AccountOperation accountOperation = ATMService.SelectOperationEnglish();
 
                     if (accountOperation == AccountOperation.Withdrawal)
-
                     {
-                        ATMService atm = new ATMService();
-
-                        // Subscription
-                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
-
                         atm.WithdrawalHandler(
                             ATMService.EnglishWithdrawalOption(),
                             Translation.EnglishWithdrawalSuccessMessage(),
@@ -93,7 +90,7 @@ namespace ATM
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         int accountBalance = ATMService.CheckBalance();
-                        Console.WriteLine($"\nYour Account Balance is N{accountBalance:n}\n");
+                        Console.WriteLine($"\nYour Account Balance is N{accountBalance:n}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -116,11 +113,6 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-                        var atm = new ATMService();
-
-                        // Subscription
-                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
-                        
                         atm.WithdrawalHandler(
                             ATMService.PidginWithdrawalOption(),
                             Translation.PidginWithdrawalSuccessMessage(),
@@ -135,7 +127,7 @@ namespace ATM
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         int accountBalance = ATMService.CheckBalance();
-                        Console.WriteLine($"\nAll your money na N{accountBalance:n}\n");
+                        Console.WriteLine($"\nAll your money na N{accountBalance:n}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -158,11 +150,6 @@ namespace ATM
 
                     if (accountOperation == AccountOperation.Withdrawal)
                     {
-                        var atm = new ATMService();
-
-                        // Subscription
-                        atm.DebitAlert += Events.EventHandler.RecordDebitAlert;
-                        
                         atm.WithdrawalHandler(
                             ATMService.IgboWithdrawalOption(), 
                             Translation.IgboWithdrawalSuccessMessage(), 
@@ -177,7 +164,7 @@ namespace ATM
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         int accountBalance = ATMService.CheckBalance();
-                        Console.WriteLine($"\nEgo N'ile I Nwere Bu N{accountBalance:n}\n");
+                        Console.WriteLine($"\nEgo N'ile I Nwere Bu N{accountBalance:n}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -224,7 +211,7 @@ namespace ATM
         private static string PromptUser(string fieldName)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Please, enter a valid {fieldName}");
+            Console.WriteLine($"\nPlease, enter a valid {fieldName}");
             Console.ForegroundColor = ConsoleColor.White;
             return Console.ReadLine().Trim();
         }

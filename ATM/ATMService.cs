@@ -1,4 +1,5 @@
 ﻿using ATM.Events;
+using ATM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,25 @@ namespace ATM
     public class ATMService
     {
         public event EventHandler<DebitEventArgs> DebitAlert;
+        public event EventHandler<CreditEventArgs> CreditAlert;
 
         private static int _vault = 500000;
         private static User _user;
 
-        public static void Register(User model)
+        public void Register(User model)
         {
             _user = model;
+            Console.WriteLine($"\n{_user.Name}, has been registered successfully!");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n{_user.Name}, has been registered successfully!\nAccount No: {_user.AccountNumber}\nYou've N{_user.AccountBalance:n} in your account!");
+
+            var creditArgs = new CreditEventArgs()
+            {
+                AccountNumber = _user.AccountNumber,
+                DepositAmount = _user.AccountBalance,
+                AccountBalance = _user.AccountBalance
+            };
+            
+            OnCredit(creditArgs);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -110,8 +121,7 @@ namespace ATM
                     {
                         _user.AccountBalance -= withdrawalAmount;
                         _vault -= withdrawalAmount;
-                        Console.WriteLine($"N{withdrawalAmount:n} {successMessage}");
-
+                        Console.WriteLine($"\nN{withdrawalAmount:n} {successMessage}");
                         var debitArgs = new DebitEventArgs()
                         {
                             AccountBalance = _user.AccountBalance,
@@ -119,8 +129,9 @@ namespace ATM
                             AccountNumber = _user.AccountNumber
                         };
 
+                        Console.ForegroundColor = ConsoleColor.Red;
                         OnDebit(debitArgs);
-
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     {
@@ -208,7 +219,7 @@ namespace ATM
                         Console.ForegroundColor = ConsoleColor.Red;
                         Translation.PidginOperationErrorMessage();
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine("Chook the amount you wan collect");
+                        Console.WriteLine("\nChook the amount you wan collect");
                         amount = Console.ReadLine();
                     }
                     return withdrawalAmount;
@@ -233,7 +244,7 @@ namespace ATM
                         Console.ForegroundColor = ConsoleColor.Red;
                         Translation.IgboOperationErrorMessage();
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine("Ego Ole Ka I Choro");
+                        Console.WriteLine("\nEgo Ole Ka I Choro");
                         amount = Console.ReadLine();
                     }
                     return withdrawalAmount;
@@ -251,7 +262,7 @@ namespace ATM
                 case "3":
                     return 20000;
                 default:
-                    Console.WriteLine("Please input the amount you want to withdraw");
+                    Console.WriteLine("\nPlease input the amount you want to withdraw");
                     string amount = Console.ReadLine();
                     int withdrawalAmount = 0;
                     while (string.IsNullOrEmpty(amount) || amount.Split().Length > 1 || !(int.TryParse(amount, out withdrawalAmount)) || withdrawalAmount <= 0)
@@ -259,7 +270,7 @@ namespace ATM
                         Console.ForegroundColor = ConsoleColor.Red;
                         Translation.EnglishOperationErrorMessage();
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine("Please input the amount you want to withdraw");
+                        Console.WriteLine("\nPlease input the amount you want to withdraw");
                         amount = Console.ReadLine();
                     }
                     return withdrawalAmount;
@@ -366,12 +377,17 @@ namespace ATM
 
         private static bool IsValidated(string pin, string PIN)
         {
-            return (pin == PIN) ? true : false;
+            return (pin == PIN);
         }
         
         protected virtual void OnDebit(DebitEventArgs model)
         {
             DebitAlert?.Invoke(this, model);
+        }
+        
+        protected virtual void OnCredit(CreditEventArgs model)
+        {
+            CreditAlert?.Invoke(this, model);
         }
     }
 }

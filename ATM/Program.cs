@@ -14,10 +14,6 @@ namespace ATM
             // sets the title of the console
             Console.Title = "Automated Teller Machine - Genesys Bank";
 
-            // sets the text color of the console, also known as the foreground color
-            //Console.ForegroundColor = ConsoleColor.White;
-
-
             Application.Run();
 
             Console.ReadKey();

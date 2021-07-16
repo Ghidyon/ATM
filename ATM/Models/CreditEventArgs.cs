@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ATM.Models
 {
-    public class DebitEventArgs : EventArgs
+    public class CreditEventArgs : EventArgs
     {
         public int AccountNumber { get; set; }
-        public int WithdrawalAmount { get; set; }
+        public int DepositAmount { get; set; }
         public int AccountBalance { get; set; }
     }
 }
